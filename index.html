@@ -536,7 +536,7 @@
     <!-- ===================================================================
          SECTION 2: WELCOME (FLUSH 3-ROW CONVEYOR + HOVER FILTER + LOGOS)
          =================================================================== -->
-    <section id="view-welcome" class="view-section relative w-full overflow-x-hidden hidden">
+    <section id="view-welcome" class="view-section relative w-full overflow-x-hidden">
       
       <!-- Hero Viewport Container Starting Flush at Header -->
       <div class="relative w-full h-[calc(100vh-5rem)] min-h-[580px] flex flex-col justify-between overflow-hidden bg-[#001229]">
@@ -634,7 +634,7 @@
     <!-- ===================================================================
          SECTION 3: HEADSHOTS & EVENT PHOTOGRAPHY (PASS 2 + PASS 3 LOCKED)
          =================================================================== -->
-    <section id="view-photography" class="view-section pb-16 w-full overflow-x-hidden">
+    <section id="view-photography" class="view-section hidden pb-16 w-full overflow-x-hidden">
       
       <!-- Sub-Navigation Bar (Normal Relative Flow - No Overlap) -->
       <div class="relative z-20 bg-[#001d3d]/95 backdrop-blur-xl border-b border-[#AEC3F4]/20 py-4 mb-2">
@@ -3992,6 +3992,8 @@
 
     // Fault-Tolerant Application Bootstrapper
     async function initPortfolio() {
+      // Always open on the Welcome page (ignores whichever tab was open when the file was last saved)
+      try { switchMainView('welcome'); } catch (e) { console.error(e); }
       try { await loadMediaManifest(); } catch (e) { console.error(e); }
       try { refreshAllRenderedMedia(); } catch (e) { console.error(e); }
       try { enforceLocalOnlyToolsVisibility(); } catch (e) { console.error(e); }
