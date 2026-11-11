@@ -133,7 +133,7 @@
       display: flex;
       height: 100%;
       width: max-content;
-      gap: 2px;
+      gap: 0;
       animation: conveyorLeft 108s linear infinite;
       will-change: transform;
     }
@@ -142,7 +142,7 @@
       display: flex;
       height: 100%;
       width: max-content;
-      gap: 2px;
+      gap: 0;
       animation: conveyorRight 108s linear infinite;
       will-change: transform;
     }
@@ -173,9 +173,24 @@
       width: auto;
       aspect-ratio: 16 / 10;
       flex-shrink: 0;
+      margin-right: 2px; /* spacing lives on each tile so the duplicated half is exactly 50% */
       border-radius: 0;
       overflow: hidden;
       background-color: #001229;
+      background-size: cover;
+      background-position: 50% 25%;
+      contain: paint;
+    }
+
+    .conveyor-plane-3row {
+      transition: opacity 0.22s ease;
+    }
+    .conveyor-plane-3row.is-swapping {
+      opacity: 0 !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .conveyor-track-left, .conveyor-track-right { animation-duration: 400s; }
     }
 
     .conveyor-tile img,
@@ -314,6 +329,24 @@
       filter: brightness(1.08);
     }
 
+    /* Lazy tiles: space is reserved + blurred preview shows instantly; photo fades in when ready */
+    .lazy-tile {
+      background-color: #001229;
+      background-size: cover;
+      background-position: center;
+    }
+    .lazy-tile img {
+      opacity: 0;
+      transition: opacity 0.45s ease, filter 0.25s ease, transform 0.3s ease;
+    }
+    .lazy-tile img.is-loaded {
+      opacity: 1;
+    }
+    .brick-item.lazy-tile img {
+      height: 100%;
+      object-fit: cover;
+    }
+
     /* Smooth 0.35s Bottom-to-Top Snap-Up Entrance Animation for Galleries */
     .brick-snap-item {
       opacity: 0;
@@ -382,7 +415,7 @@
       <!-- Personal Brand Logo on White/Gray Hue Blend + Name -->
       <button type="button" onclick="switchMainView('welcome')" class="flex items-center gap-2.5 sm:gap-3.5 text-left group focus:outline-none shrink-0 min-w-0">
         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl jf-logo-badge p-1.5 flex items-center justify-center shadow-lg border border-white/60 group-hover:scale-105 transition-transform overflow-hidden shrink-0">
-          <img id="headerBrandLogoImg" src="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-alt-list="portfolio-media/By JF logos.png|By JF logos.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="JF Logo" class="w-full h-full object-contain" data-retry-idx="5">
+          <img id="headerBrandLogoImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-alt-list="portfolio-media/By JF logos.png|By JF logos.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="JF Logo" class="w-full h-full object-contain" data-retry-idx="5">
         </div>
         <div class="min-w-0">
           <span data-edit-key="brandName" class="font-heading text-base sm:text-xl tracking-tight hero-name-gradient block leading-none truncate">
@@ -513,255 +546,15 @@
           <div id="conveyorPlane" class="conveyor-plane-3row">
             <!-- Row 1: Moves Left (9 photos + Video 1 at slot 2) -->
             <div class="conveyor-row-window">
-              <div id="conveyorRow1" class="conveyor-track-left">
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/01.PNG" data-raw-path="portfolio-media/02-headshots/highlights/01.PNG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/02.jpg" data-raw-path="portfolio-media/02-headshots/highlights/02.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" data-raw-path="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/04.jpg" data-raw-path="portfolio-media/02-headshots/highlights/04.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_0016.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_0016.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_4865.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_4865.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9219.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9219.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9351.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9351.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" data-raw-path="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/01.PNG" data-raw-path="portfolio-media/02-headshots/highlights/01.PNG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/02.jpg" data-raw-path="portfolio-media/02-headshots/highlights/02.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" data-raw-path="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/04.jpg" data-raw-path="portfolio-media/02-headshots/highlights/04.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_0016.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_0016.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_4865.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_4865.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9219.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9219.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9351.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9351.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" data-raw-path="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      </div>
+              <div id="conveyorRow1" class="conveyor-track-left"></div>
             </div>
             <!-- Row 2: Moves Right (9 photos + Video 2 at slot 5) -->
             <div class="conveyor-row-window">
-              <div id="conveyorRow2" class="conveyor-track-right">
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" data-raw-path="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" data-raw-path="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" data-raw-path="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0090.jpg" data-raw-path="portfolio-media/03-events/IMG_0090.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" data-raw-path="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" data-raw-path="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" data-raw-path="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0090.jpg" data-raw-path="portfolio-media/03-events/IMG_0090.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      </div>
+              <div id="conveyorRow2" class="conveyor-track-right"></div>
             </div>
             <!-- Row 3: Moves Left (9 photos + Video 3 at slot 8) -->
             <div class="conveyor-row-window">
-              <div id="conveyorRow3" class="conveyor-track-left">
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0090.jpg" data-raw-path="portfolio-media/03-events/IMG_0090.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0315.jpg" data-raw-path="portfolio-media/03-events/IMG_0315.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1495.JPG" data-raw-path="portfolio-media/03-events/IMG_1495.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1554.JPG" data-raw-path="portfolio-media/03-events/IMG_1554.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1610.JPG" data-raw-path="portfolio-media/03-events/IMG_1610.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1615.JPG" data-raw-path="portfolio-media/03-events/IMG_1615.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1634.JPG" data-raw-path="portfolio-media/03-events/IMG_1634.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1734.JPG" data-raw-path="portfolio-media/03-events/IMG_1734.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" data-raw-path="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1828.jpg" data-raw-path="portfolio-media/03-events/IMG_1828.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0090.jpg" data-raw-path="portfolio-media/03-events/IMG_0090.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_0315.jpg" data-raw-path="portfolio-media/03-events/IMG_0315.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1495.JPG" data-raw-path="portfolio-media/03-events/IMG_1495.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1554.JPG" data-raw-path="portfolio-media/03-events/IMG_1554.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1610.JPG" data-raw-path="portfolio-media/03-events/IMG_1610.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1615.JPG" data-raw-path="portfolio-media/03-events/IMG_1615.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1634.JPG" data-raw-path="portfolio-media/03-events/IMG_1634.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1734.JPG" data-raw-path="portfolio-media/03-events/IMG_1734.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      
-          <div class="conveyor-tile">
-            <video src="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" data-raw-path="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" onerror="handleSmartMediaError(this)" autoplay="" loop="" muted="" playsinline="" preload="metadata"></video>
-          </div>
-        
-        <div class="conveyor-tile">
-          <img src="portfolio-media/03-events/IMG_1828.jpg" data-raw-path="portfolio-media/03-events/IMG_1828.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="" loading="eager">
-        </div>
-      </div>
+              <div id="conveyorRow3" class="conveyor-track-left"></div>
             </div>
           </div>
           <!-- 15% Opacity Reduction Mask + Subtle Edge Vignette Over Conveyor Media -->
@@ -886,39 +679,7 @@
           </div>
 
           <!-- Flush Brick Gallery: Highlights -->
-          <div id="headshotHighlightsGrid" class="brick-gallery brick-masonry-3">
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/01.PNG" data-raw-path="portfolio-media/02-headshots/highlights/01.PNG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/02.jpg" data-raw-path="portfolio-media/02-headshots/highlights/02.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/03.jpg" data-raw-path="portfolio-media/02-headshots/highlights/03.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/04.jpg" data-raw-path="portfolio-media/02-headshots/highlights/04.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/IMG_0016.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_0016.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/IMG_4865.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_4865.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9219.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9219.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/highlights/IMG_9351.jpg" data-raw-path="portfolio-media/02-headshots/highlights/IMG_9351.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      </div>
+          <div id="headshotHighlightsGrid" class="brick-gallery brick-masonry-3"></div>
           <div id="headshotHighlightsExpandWrap" class="md:hidden mt-4 text-center">
             <button type="button" id="headshotHighlightsExpandBtn" onclick="toggleMobileGalleryExpand('headshotHighlightsGrid', 'headshotHighlightsExpandBtn')" class="w-full sm:w-auto px-6 py-3 rounded-xl glass-panel border border-[#2196F3]/60 text-[#DDEDFF] font-heading text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 mx-auto" data-hidden-count="2"><span>View Full Gallery (+2 Photos)</span><i class="fa-solid fa-chevron-down text-[10px] text-[#2196F3]"></i></button>
           </div>
@@ -1112,387 +873,7 @@
             <h3 data-edit-key="extendedGalleryTitle" class="font-heading font-heading-semi text-3xl sm:text-4xl md:text-5xl tracking-tight text-[#DDEDFF]">Extended Headshot Gallery</h3>
           </div>
 
-          <div id="headshotExtendedGrid" class="brick-gallery brick-masonry-3">
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/1 (3).png" data-raw-path="portfolio-media/02-headshots/gallery/1 (3).png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/1 (4).png" data-raw-path="portfolio-media/02-headshots/gallery/1 (4).png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/3.1.png" data-raw-path="portfolio-media/02-headshots/gallery/3.1.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/4 2.png" data-raw-path="portfolio-media/02-headshots/gallery/4 2.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/4.png" data-raw-path="portfolio-media/02-headshots/gallery/4.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/5.jpg" data-raw-path="portfolio-media/02-headshots/gallery/5.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/8.png" data-raw-path="portfolio-media/02-headshots/gallery/8.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/10.png" data-raw-path="portfolio-media/02-headshots/gallery/10.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Aiden Smith.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Aiden Smith.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Alexander Cassin.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Alexander Cassin.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Amelie Arjoon.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Amelie Arjoon.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Andrew Yoser.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Andrew Yoser.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Antonia Falanga.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Antonia Falanga.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Ariella Glatt.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ariella Glatt.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Arya Ling.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Arya Ling.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Bryce Burgos.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Bryce Burgos.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Carmela Roebuck.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Carmela Roebuck.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Celestina Kim.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Celestina Kim.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Connor Maron.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Connor Maron.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Eleanor Rooney.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Eleanor Rooney.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Elissa Choi.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Elissa Choi.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Ella Panzone.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ella Panzone.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Emily Walsh.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Emily Walsh.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Emmett Gewirtzman.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Emmett Gewirtzman.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Ethan Arjoon.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ethan Arjoon.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Ethan Haney.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ethan Haney.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Eva Johnson.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Eva Johnson.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/George Roebuck 2.jpg" data-raw-path="portfolio-media/02-headshots/gallery/George Roebuck 2.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/George Roebuck.jpg" data-raw-path="portfolio-media/02-headshots/gallery/George Roebuck.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Harper Elko.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Harper Elko.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Henry Domanski.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Henry Domanski.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0071.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0071.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0128.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0128.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0259.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0259.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0326.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0326.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0393.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0393.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0428.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0428.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0490.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0490.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0536.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0536.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0546.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0546.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0651.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0651.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0669 (1).jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0669 (1).jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0736.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0736.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_0908.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_0908.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_2681.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_2681.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_4893.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_4893.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_4907.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_4907.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_4938.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_4938.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_4948.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_4948.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_5004.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_5004.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_5033.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_5033.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_5064.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_5064.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_5124.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_5124.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_6539.JPG" data-raw-path="portfolio-media/02-headshots/gallery/IMG_6539.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_6571.JPG" data-raw-path="portfolio-media/02-headshots/gallery/IMG_6571.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_6597.JPG" data-raw-path="portfolio-media/02-headshots/gallery/IMG_6597.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_7564.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_7564.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_8767.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_8767.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9116.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9116.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9122.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9122.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9129.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9129.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9703.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9703.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9743.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9743.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/IMG_9921.jpg" data-raw-path="portfolio-media/02-headshots/gallery/IMG_9921.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Ishi Menra.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ishi Menra.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Jade Dudas.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Jade Dudas.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Jazmin Nunez.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Jazmin Nunez.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Jolie Hochberg.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Jolie Hochberg.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Jora Pobiner.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Jora Pobiner.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Josephine Roebuck.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Josephine Roebuck.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Jude Ackermann.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Jude Ackermann.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Kaiya Gewirtzman.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Kaiya Gewirtzman.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Lake Mandelbaum.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Lake Mandelbaum.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Lance Lowy.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Lance Lowy.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Lynda Wiggins.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Lynda Wiggins.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Madison Huhn.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Madison Huhn.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Max Levin.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Max Levin.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Maya Rosenblatt.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Maya Rosenblatt.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Mila Levy.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Mila Levy.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Mina Shehee.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Mina Shehee.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Montgomery Starwalt.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Montgomery Starwalt.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Riley Finnerty.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Riley Finnerty.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Ryder Nordstrom.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Ryder Nordstrom.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer brick-snap-visible" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true" data-in-viewport="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy1.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy1.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy2.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy2.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy3.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy3.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy4.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy4.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy5.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy5.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy6.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy6.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy7.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy7.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy8.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy8.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy9.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy9.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy10.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy10.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy11.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy11.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/02-headshots/gallery/Simpy12.jpg" data-raw-path="portfolio-media/02-headshots/gallery/Simpy12.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      </div>
+          <div id="headshotExtendedGrid" class="brick-gallery brick-masonry-3"></div>
           <div id="headshotExtendedExpandWrap" class="md:hidden mt-4 text-center">
             <button type="button" id="headshotExtendedExpandBtn" onclick="toggleMobileGalleryExpand('headshotExtendedGrid', 'headshotExtendedExpandBtn')" class="w-full sm:w-auto px-6 py-3 rounded-xl glass-panel border border-[#2196F3]/60 text-[#DDEDFF] font-heading text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 mx-auto" data-hidden-count="87"><span>View Full Gallery (+87 Photos)</span><i class="fa-solid fa-chevron-down text-[10px] text-[#2196F3]"></i></button>
           </div>
@@ -1546,363 +927,7 @@
           </div>
 
           <!-- Flush Brick Gallery: Events -->
-          <div id="eventPhotographyGrid" class="brick-gallery brick-masonry-3">
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_0090.jpg" data-raw-path="portfolio-media/03-events/IMG_0090.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_0315.jpg" data-raw-path="portfolio-media/03-events/IMG_0315.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1495.JPG" data-raw-path="portfolio-media/03-events/IMG_1495.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1554.JPG" data-raw-path="portfolio-media/03-events/IMG_1554.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1610.JPG" data-raw-path="portfolio-media/03-events/IMG_1610.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1615.JPG" data-raw-path="portfolio-media/03-events/IMG_1615.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1634.JPG" data-raw-path="portfolio-media/03-events/IMG_1634.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1734.JPG" data-raw-path="portfolio-media/03-events/IMG_1734.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1777.JPG" data-raw-path="portfolio-media/03-events/IMG_1777.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1828.jpg" data-raw-path="portfolio-media/03-events/IMG_1828.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1888.jpg" data-raw-path="portfolio-media/03-events/IMG_1888.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1890.JPG" data-raw-path="portfolio-media/03-events/IMG_1890.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1916.JPG" data-raw-path="portfolio-media/03-events/IMG_1916.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1947.JPG" data-raw-path="portfolio-media/03-events/IMG_1947.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1958.JPG" data-raw-path="portfolio-media/03-events/IMG_1958.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_1998.JPG" data-raw-path="portfolio-media/03-events/IMG_1998.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2063.JPG" data-raw-path="portfolio-media/03-events/IMG_2063.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2072.jpg" data-raw-path="portfolio-media/03-events/IMG_2072.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2079.JPG" data-raw-path="portfolio-media/03-events/IMG_2079.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2135.JPG" data-raw-path="portfolio-media/03-events/IMG_2135.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2145.JPG" data-raw-path="portfolio-media/03-events/IMG_2145.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2171.jpg" data-raw-path="portfolio-media/03-events/IMG_2171.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2237.jpg" data-raw-path="portfolio-media/03-events/IMG_2237.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2243.JPG" data-raw-path="portfolio-media/03-events/IMG_2243.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2278.JPG" data-raw-path="portfolio-media/03-events/IMG_2278.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2279.JPG" data-raw-path="portfolio-media/03-events/IMG_2279.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2282.JPG" data-raw-path="portfolio-media/03-events/IMG_2282.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2289.JPG" data-raw-path="portfolio-media/03-events/IMG_2289.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2297.JPG" data-raw-path="portfolio-media/03-events/IMG_2297.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2328.jpg" data-raw-path="portfolio-media/03-events/IMG_2328.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2396.jpg" data-raw-path="portfolio-media/03-events/IMG_2396.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2578.jpg" data-raw-path="portfolio-media/03-events/IMG_2578.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2635.jpg" data-raw-path="portfolio-media/03-events/IMG_2635.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2702.jpg" data-raw-path="portfolio-media/03-events/IMG_2702.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2709.jpg" data-raw-path="portfolio-media/03-events/IMG_2709.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2721.jpg" data-raw-path="portfolio-media/03-events/IMG_2721.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2751.jpg" data-raw-path="portfolio-media/03-events/IMG_2751.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2777.jpg" data-raw-path="portfolio-media/03-events/IMG_2777.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2810.jpg" data-raw-path="portfolio-media/03-events/IMG_2810.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2816.jpg" data-raw-path="portfolio-media/03-events/IMG_2816.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_2932.jpg" data-raw-path="portfolio-media/03-events/IMG_2932.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3008.jpg" data-raw-path="portfolio-media/03-events/IMG_3008.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3021.jpg" data-raw-path="portfolio-media/03-events/IMG_3021.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3034.JPG" data-raw-path="portfolio-media/03-events/IMG_3034.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3041.jpg" data-raw-path="portfolio-media/03-events/IMG_3041.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3047.JPG" data-raw-path="portfolio-media/03-events/IMG_3047.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3081.jpg" data-raw-path="portfolio-media/03-events/IMG_3081.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3095.jpg" data-raw-path="portfolio-media/03-events/IMG_3095.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3100.JPG" data-raw-path="portfolio-media/03-events/IMG_3100.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3103.jpg" data-raw-path="portfolio-media/03-events/IMG_3103.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3140 copy.JPG" data-raw-path="portfolio-media/03-events/IMG_3140 copy.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3140.jpg" data-raw-path="portfolio-media/03-events/IMG_3140.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3190.jpg" data-raw-path="portfolio-media/03-events/IMG_3190.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3209.JPG" data-raw-path="portfolio-media/03-events/IMG_3209.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3240.jpg" data-raw-path="portfolio-media/03-events/IMG_3240.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3241.jpg" data-raw-path="portfolio-media/03-events/IMG_3241.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3276.JPG" data-raw-path="portfolio-media/03-events/IMG_3276.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3280.jpg" data-raw-path="portfolio-media/03-events/IMG_3280.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3289.JPG" data-raw-path="portfolio-media/03-events/IMG_3289.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3298.JPG" data-raw-path="portfolio-media/03-events/IMG_3298.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3299.JPG" data-raw-path="portfolio-media/03-events/IMG_3299.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3300.JPG" data-raw-path="portfolio-media/03-events/IMG_3300.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3346.JPG" data-raw-path="portfolio-media/03-events/IMG_3346.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3347.JPG" data-raw-path="portfolio-media/03-events/IMG_3347.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3468.JPG" data-raw-path="portfolio-media/03-events/IMG_3468.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3489.JPG" data-raw-path="portfolio-media/03-events/IMG_3489.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3532.JPG" data-raw-path="portfolio-media/03-events/IMG_3532.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3557.JPG" data-raw-path="portfolio-media/03-events/IMG_3557.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3581.JPG" data-raw-path="portfolio-media/03-events/IMG_3581.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3680.JPG" data-raw-path="portfolio-media/03-events/IMG_3680.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3724.JPG" data-raw-path="portfolio-media/03-events/IMG_3724.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3760.JPG" data-raw-path="portfolio-media/03-events/IMG_3760.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3778.JPG" data-raw-path="portfolio-media/03-events/IMG_3778.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_3803.JPG" data-raw-path="portfolio-media/03-events/IMG_3803.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_5249.jpg" data-raw-path="portfolio-media/03-events/IMG_5249.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_5322.jpg" data-raw-path="portfolio-media/03-events/IMG_5322.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_5326.jpg" data-raw-path="portfolio-media/03-events/IMG_5326.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_5702.jpg" data-raw-path="portfolio-media/03-events/IMG_5702.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_6761.JPG" data-raw-path="portfolio-media/03-events/IMG_6761.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_6817.JPG" data-raw-path="portfolio-media/03-events/IMG_6817.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_6829.JPG" data-raw-path="portfolio-media/03-events/IMG_6829.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_6858.JPG" data-raw-path="portfolio-media/03-events/IMG_6858.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_6885.JPG" data-raw-path="portfolio-media/03-events/IMG_6885.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_7346.jpg" data-raw-path="portfolio-media/03-events/IMG_7346.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_7361.jpg" data-raw-path="portfolio-media/03-events/IMG_7361.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_7378.jpg" data-raw-path="portfolio-media/03-events/IMG_7378.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_9822.jpg" data-raw-path="portfolio-media/03-events/IMG_9822.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_9911.jpg" data-raw-path="portfolio-media/03-events/IMG_9911.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/03-events/IMG_9994.jpg" data-raw-path="portfolio-media/03-events/IMG_9994.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      </div>
+          <div id="eventPhotographyGrid" class="brick-gallery brick-masonry-3"></div>
           <div id="eventPhotographyExpandWrap" class="md:hidden mt-4 text-center">
             <button type="button" id="eventPhotographyExpandBtn" onclick="toggleMobileGalleryExpand('eventPhotographyGrid', 'eventPhotographyExpandBtn')" class="w-full sm:w-auto px-6 py-3 rounded-xl glass-panel border border-[#2196F3]/60 text-[#DDEDFF] font-heading text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 mx-auto" data-hidden-count="81"><span>View Full Gallery (+81 Photos)</span><i class="fa-solid fa-chevron-down text-[10px] text-[#2196F3]"></i></button>
           </div>
@@ -2012,99 +1037,7 @@
         </div>
 
         <!-- Stacked Videos Container (75% Reduced Vertical Spacing: space-y-3) -->
-        <div id="videoStackContainer" class="space-y-3 mb-12">
-              <article class="video-stack-card glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25" data-video-index="0">
-                <div class="relative bg-[#001229] aspect-video w-full overflow-hidden">
-                  <video src="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" data-raw-path="portfolio-media/04-videography/PACKAGE 1(FINISHED).mp4" onerror="handleSmartMediaError(this)" class="stack-video-player w-full h-full object-cover" playsinline="" webkit-playsinline="true" loop="" muted="" controls="" preload="auto"></video>
-                </div>
-                <div class="p-5 sm:p-6 relative z-20">
-                  <div class="flex items-center justify-between gap-2 mb-1">
-                    <span data-edit-key="videoCat_0" class="font-mono text-xs uppercase tracking-widest text-[#2196F3] block">
-                      Commercial Spot
-                    </span>
-                    <button type="button" onclick="toggleGlobalVideoAudio(event)" class="card-audio-sync-btn relative z-30 cursor-pointer px-3 py-1.5 rounded-xl glass-panel border border-[#2196F3]/50 hover:border-[#DDEDFF] active:scale-95 font-mono text-[11px] text-[#DDEDFF] flex items-center gap-1.5 transition-all shadow-sm">
-                      <i class="card-audio-sync-icon fa-solid fa-volume-xmark text-[#2196F3]"></i>
-                      <span class="card-audio-sync-label">Muted • Tap to Unmute All</span>
-                    </button>
-                  </div>
-                  <h3 data-edit-key="videoTitle_0" class="font-heading text-xl sm:text-2xl text-[#DDEDFF] mb-1.5">
-                    5tar Academy Commercial 1
-                  </h3>
-                  <p data-edit-key="videoDesc_0" class="font-body text-base text-[#AEC3F4] leading-relaxed">
-                    A thirty-second advertisement developed for a local studio that I frequently collaborate with in Fords, NJ.
-                  </p>
-                </div>
-              </article>
-            
-              <article class="video-stack-card glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25" data-video-index="1">
-                <div class="relative bg-[#001229] aspect-video w-full overflow-hidden">
-                  <video src="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" data-raw-path="portfolio-media/04-videography/NEMO_DRAFT_2.mp4" onerror="handleSmartMediaError(this)" class="stack-video-player w-full h-full object-cover" playsinline="" webkit-playsinline="true" loop="" muted="" controls="" preload="auto"></video>
-                </div>
-                <div class="p-5 sm:p-6 relative z-20">
-                  <div class="flex items-center justify-between gap-2 mb-1">
-                    <span data-edit-key="videoCat_1" class="font-mono text-xs uppercase tracking-widest text-[#2196F3] block">
-                      Theatrical Promo
-                    </span>
-                    <button type="button" onclick="toggleGlobalVideoAudio(event)" class="card-audio-sync-btn relative z-30 cursor-pointer px-3 py-1.5 rounded-xl glass-panel border border-[#2196F3]/50 hover:border-[#DDEDFF] active:scale-95 font-mono text-[11px] text-[#DDEDFF] flex items-center gap-1.5 transition-all shadow-sm">
-                      <i class="card-audio-sync-icon fa-solid fa-volume-xmark text-[#2196F3]"></i>
-                      <span class="card-audio-sync-label">Muted • Tap to Unmute All</span>
-                    </button>
-                  </div>
-                  <h3 data-edit-key="videoTitle_1" class="font-heading text-xl sm:text-2xl text-[#DDEDFF] mb-1.5">
-                    Finding Nemo Summer Camp Promo
-                  </h3>
-                  <p data-edit-key="videoDesc_1" class="font-body text-base text-[#AEC3F4] leading-relaxed">
-                    Promotional video developed for a summer camp to be displayed before shows for parents and anyone who has supported the camp.
-                  </p>
-                </div>
-              </article>
-            
-              <article class="video-stack-card glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25" data-video-index="2">
-                <div class="relative bg-[#001229] aspect-video w-full overflow-hidden">
-                  <video src="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" data-raw-path="portfolio-media/04-videography/Mr. Fatty vid1(finished)_1 (1).mp4" onerror="handleSmartMediaError(this)" class="stack-video-player w-full h-full object-cover" playsinline="" webkit-playsinline="true" loop="" muted="" controls="" preload="auto"></video>
-                </div>
-                <div class="p-5 sm:p-6 relative z-20">
-                  <div class="flex items-center justify-between gap-2 mb-1">
-                    <span data-edit-key="videoCat_2" class="font-mono text-xs uppercase tracking-widest text-[#2196F3] block">
-                      Live Music &amp; Event Edit
-                    </span>
-                    <button type="button" onclick="toggleGlobalVideoAudio(event)" class="card-audio-sync-btn relative z-30 cursor-pointer px-3 py-1.5 rounded-xl glass-panel border border-[#2196F3]/50 hover:border-[#DDEDFF] active:scale-95 font-mono text-[11px] text-[#DDEDFF] flex items-center gap-1.5 transition-all shadow-sm">
-                      <i class="card-audio-sync-icon fa-solid fa-volume-xmark text-[#2196F3]"></i>
-                      <span class="card-audio-sync-label">Muted • Tap to Unmute All</span>
-                    </button>
-                  </div>
-                  <h3 data-edit-key="videoTitle_2" class="font-heading text-xl sm:text-2xl text-[#DDEDFF] mb-1.5">
-                    Mr. Fatty Basement Concert
-                  </h3>
-                  <p data-edit-key="videoDesc_2" class="font-body text-base text-[#AEC3F4] leading-relaxed">
-                    Social media edit composed for a local band to New Brunswick, NJ showcasing the qualities of their concerts.
-                  </p>
-                </div>
-              </article>
-            
-              <article class="video-stack-card glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25" data-video-index="3">
-                <div class="relative bg-[#001229] aspect-video w-full overflow-hidden">
-                  <video src="portfolio-media/04-videography/PACKAGE 2(FINISHED).mp4" data-raw-path="portfolio-media/04-videography/PACKAGE 2(FINISHED).mp4" onerror="handleSmartMediaError(this)" class="stack-video-player w-full h-full object-cover" playsinline="" webkit-playsinline="true" loop="" muted="" controls="" preload="auto"></video>
-                </div>
-                <div class="p-5 sm:p-6 relative z-20">
-                  <div class="flex items-center justify-between gap-2 mb-1">
-                    <span data-edit-key="videoCat_3" class="font-mono text-xs uppercase tracking-widest text-[#2196F3] block">
-                      Commercial Spot
-                    </span>
-                    <button type="button" onclick="toggleGlobalVideoAudio(event)" class="card-audio-sync-btn relative z-30 cursor-pointer px-3 py-1.5 rounded-xl glass-panel border border-[#2196F3]/50 hover:border-[#DDEDFF] active:scale-95 font-mono text-[11px] text-[#DDEDFF] flex items-center gap-1.5 transition-all shadow-sm">
-                      <i class="card-audio-sync-icon fa-solid fa-volume-xmark text-[#2196F3]"></i>
-                      <span class="card-audio-sync-label">Muted • Tap to Unmute All</span>
-                    </button>
-                  </div>
-                  <h3 data-edit-key="videoTitle_3" class="font-heading text-xl sm:text-2xl text-[#DDEDFF] mb-1.5">
-                    5tar Academy Commercial 2
-                  </h3>
-                  <p data-edit-key="videoDesc_3" class="font-body text-base text-[#AEC3F4] leading-relaxed">
-                    A thirty-second advertisement developed for a local studio that I frequently collaborate with in Fords, NJ.
-                  </p>
-                </div>
-              </article>
-            </div>
+        <div id="videoStackContainer" class="space-y-3 mb-12"></div>
 
         <!-- Videography Rate, Camera Specs & Software Block -->
         <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-[#3c5ae8]/40 mb-10">
@@ -2254,7 +1187,7 @@
             <div class="lg:col-span-4 flex flex-col gap-3">
               <!-- Main Portrait Image -->
               <div onclick="openLightbox(this.querySelector('img').currentSrc)" class="w-full h-64 sm:h-72 overflow-hidden bg-[#001229] cursor-pointer border border-[#AEC3F4]/25">
-                <img id="aboutPortraitImg" src="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Joseph Ferrara" class="w-full h-full object-cover" data-retry-idx="4">
+                <img id="aboutPortraitImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0041.JPG" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Joseph Ferrara" class="w-full h-full object-cover" data-retry-idx="4">
               </div>
 
               <!-- Credentials & Qualifications Boxes Directly Below Portrait -->
@@ -2325,84 +1258,20 @@
               </div>
 
               <!-- First 4 "In My Element" Photos Directly Underneath Bio -->
-              <div id="btsUnderBioGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-0 space-y-0 leading-[0] m-0 p-0 border-0">
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="0" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" data-raw-path="portfolio-media/01-welcome/bts-me/E2BA323C-5B99-4E70-9DCE-31AB2DF8F1E0.jpeg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="40" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_0057.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="80" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1954.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="0" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_1965.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          </div>
+              <div id="btsUnderBioGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-0 space-y-0 leading-[0] m-0 p-0 border-0"></div>
             </div>
 
           </div>
 
           <!-- Remaining 5 "In My Element" Photos Sitting Directly Underneath Credentials & Bio Row (Zero Vertical Gap) -->
-          <div id="btsFullWidthStrip" class="grid grid-cols-2 sm:grid-cols-5 gap-0 space-y-0 leading-[0] m-0 p-0 border-0">
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="0" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2015.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="40" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_2059.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2059.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="80" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_2175.JPG" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="0" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" data-raw-path="portfolio-media/01-welcome/bts-me/IMG_4083 2.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          
-            <div onclick="openLightbox(this.querySelector('img').currentSrc)" data-snap-stagger="40" class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block" data-img-ready="true">
-              <img src="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" data-raw-path="portfolio-media/01-welcome/bts-me/Screenshot 2026-10-23 at 8.59.35 PM.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager" class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300">
-            </div>
-          </div>
+          <div id="btsFullWidthStrip" class="grid grid-cols-2 sm:grid-cols-5 gap-0 space-y-0 leading-[0] m-0 p-0 border-0"></div>
 
           <!-- Section 2C Relocated Here: Collaborator Logos Strip Underneath Section 5A Photos (No Rounded Boxes) -->
           <div class="mt-8 pt-6 border-t border-[#AEC3F4]/20">
             <span data-edit-key="collabSectionTitle" class="font-mono text-xs uppercase tracking-widest text-[#AEC3F4] block text-center mb-5">
               Companies &amp; Creative Collaborations
             </span>
-            <div id="brandLogoBar" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-6 items-center justify-items-center px-2">
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/5tarAcademyLogo.png" data-raw-path="portfolio-media/01-welcome/brand-logos/5tarAcademyLogo.png" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/ferrellstudioslogo.png" data-raw-path="portfolio-media/01-welcome/brand-logos/ferrellstudioslogo.png" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/JTBetheaLogo.png" data-raw-path="portfolio-media/01-welcome/brand-logos/JTBetheaLogo.png" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/PACTlogo.jpg" data-raw-path="portfolio-media/01-welcome/brand-logos/PACTlogo.jpg" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/pixiedustplayerslogo.jpg" data-raw-path="portfolio-media/01-welcome/brand-logos/pixiedustplayerslogo.jpg" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/playsintheparklogo.jpg" data-raw-path="portfolio-media/01-welcome/brand-logos/playsintheparklogo.jpg" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            
-              <div class="h-16 sm:h-20 px-4 py-2.5 flex items-center justify-center overflow-hidden">
-                <img src="portfolio-media/01-welcome/brand-logos/Todayshowlogo.svg" data-raw-path="portfolio-media/01-welcome/brand-logos/Todayshowlogo.svg" data-alt-list="" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Collaborator Logo" class="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105">
-              </div>
-            </div>
+            <div id="brandLogoBar" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-6 items-center justify-items-center px-2"></div>
           </div>
         </div>
 
@@ -2424,71 +1293,7 @@
           </div>
 
           <!-- Two Published Films with Enlarged Thumbnails & Tight Vertical Metadata -->
-          <div id="publishedFilmsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                <article class="glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25 flex flex-col justify-between">
-                  <div>
-                    <a href="https://drive.google.com/file/d/10qrusm6IgZHmgKa6Ug5Iv0BkfK3x9mKq/view" target="_blank" rel="noopener noreferrer" class="block relative w-full h-80 sm:h-96 overflow-hidden bg-[#001229] group">
-                      <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_1.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_1.jpg" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="Bricks" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                      <div class="absolute inset-0 bg-gradient-to-t from-[#001229]/90 via-transparent to-transparent"></div>
-                      <div class="absolute bottom-3 right-3 px-3.5 py-2 rounded-xl bg-[#3c5ae8]/95 group-hover:bg-[#2196F3] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all">
-                        <i class="fa-solid fa-play text-[10px]"></i>
-                        <span>Watch Film</span>
-                      </div>
-                    </a>
-
-                    <div class="p-4 sm:p-5">
-                      <div class="flex items-start justify-between gap-2 mb-1.5">
-                        <div>
-                          <h4 data-edit-key="filmTitle_0" class="font-heading text-2xl sm:text-3xl text-[#DDEDFF] leading-none">
-                            Bricks
-                          </h4>
-                          <span data-edit-key="filmRole_0" class="font-mono text-xs text-[#2196F3] block mt-1">
-                            Director/Writer
-                          </span>
-                        </div>
-                        <span data-edit-key="filmYear_0" class="font-mono text-xs px-2.5 py-1 rounded-lg bg-[#001229]/80 border border-[#AEC3F4]/25 text-[#AEC3F4] shrink-0">
-                          Released 2026
-                        </span>
-                      </div>
-                      <p data-edit-key="filmLogline_0" class="font-body text-sm sm:text-base text-[#AEC3F4] leading-snug">
-                        In the midst of a decaying relationship, a young woman must confront the cracks and mend the bond with her partner.
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              
-                <article class="glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25 flex flex-col justify-between">
-                  <div>
-                    <a href="https://drive.google.com/file/d/1RncTCivczD7T9Jc-njIDnMWkr8ZUSeg9/view" target="_blank" rel="noopener noreferrer" class="block relative w-full h-80 sm:h-96 overflow-hidden bg-[#001229] group">
-                      <img src="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.41.48 PM.png" data-raw-path="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.41.48 PM.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="CrewNeck" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                      <div class="absolute inset-0 bg-gradient-to-t from-[#001229]/90 via-transparent to-transparent"></div>
-                      <div class="absolute bottom-3 right-3 px-3.5 py-2 rounded-xl bg-[#3c5ae8]/95 group-hover:bg-[#2196F3] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all">
-                        <i class="fa-solid fa-play text-[10px]"></i>
-                        <span>Watch Film</span>
-                      </div>
-                    </a>
-
-                    <div class="p-4 sm:p-5">
-                      <div class="flex items-start justify-between gap-2 mb-1.5">
-                        <div>
-                          <h4 data-edit-key="filmTitle_1" class="font-heading text-2xl sm:text-3xl text-[#DDEDFF] leading-none">
-                            CrewNeck
-                          </h4>
-                          <span data-edit-key="filmRole_1" class="font-mono text-xs text-[#2196F3] block mt-1">
-                            Director/Writer
-                          </span>
-                        </div>
-                        <span data-edit-key="filmYear_1" class="font-mono text-xs px-2.5 py-1 rounded-lg bg-[#001229]/80 border border-[#AEC3F4]/25 text-[#AEC3F4] shrink-0">
-                          Released 2025
-                        </span>
-                      </div>
-                      <p data-edit-key="filmLogline_1" class="font-body text-sm sm:text-base text-[#AEC3F4] leading-snug">
-                        With their backs against the wall, four struggling young guys must find the guys who robbed them.
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              </div>
+          <div id="publishedFilmsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10"></div>
 
           <!-- Narrative Film Stills (Zero Spacing, Sharp Edges, Zero Film Names) -->
           <div class="mb-6">
@@ -2508,59 +1313,7 @@
             </div>
 
             <!-- Flush Zero-Gap Brick Grid for Film Stills -->
-            <div id="filmStillsGrid" class="brick-gallery brick-masonry-3">
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_1.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_1.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_2.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_2.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_3.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_3.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_4.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_4.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_5.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_5.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_6.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_6.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_7.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_7.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_9.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_9.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/BRICKS_SS_11.jpg" data-raw-path="portfolio-media/05-about-film/film-stills/BRICKS_SS_11.jpg" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.41.48 PM.png" data-raw-path="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.41.48 PM.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="40" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.42.38 PM.png" data-raw-path="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.42.38 PM.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="80" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.43.32 PM.png" data-raw-path="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.43.32 PM.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      
-        <div class="brick-item brick-snap-item mobile-extra-brick cursor-pointer" data-snap-stagger="0" onclick="openLightbox(this.querySelector('img').currentSrc)" data-img-ready="true">
-          <img src="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.46.15 PM.png" data-raw-path="portfolio-media/05-about-film/film-stills/Screenshot 2026-10-23 at 7.46.15 PM.png" onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);" onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);" alt="" decoding="async" loading="eager">
-        </div>
-      </div>
+            <div id="filmStillsGrid" class="brick-gallery brick-masonry-3"></div>
             <div id="filmStillsExpandWrap" class="md:hidden mt-4 text-center">
               <button type="button" id="filmStillsExpandBtn" onclick="toggleMobileGalleryExpand('filmStillsGrid', 'filmStillsExpandBtn')" class="w-full sm:w-auto px-6 py-3 rounded-xl glass-panel border border-[#2196F3]/60 text-[#DDEDFF] font-heading text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 mx-auto" data-hidden-count="7"><span>View Full Gallery (+7 Photos)</span><i class="fa-solid fa-chevron-down text-[10px] text-[#2196F3]"></i></button>
             </div>
@@ -2584,7 +1337,7 @@
         <div class="lg:col-span-4 space-y-4">
           <div class="flex items-center gap-3.5">
             <div class="w-12 h-12 rounded-xl jf-logo-badge p-1.5 flex items-center justify-center shadow-md border border-white/60 shrink-0">
-              <img id="footerBrandLogoImg" src="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-alt-list="portfolio-media/By JF logos.png|By JF logos.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="JF Logo" class="w-full h-full object-contain" data-retry-idx="5">
+              <img id="footerBrandLogoImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-alt-list="portfolio-media/By JF logos.png|By JF logos.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="JF Logo" class="w-full h-full object-contain" data-retry-idx="5">
             </div>
             <div>
               <span class="font-heading text-lg tracking-tight hero-name-gradient block leading-none">JOSEPH FERRARA</span>
@@ -3296,7 +2049,53 @@
       if (slugBase) LOCAL_BLOB_MAP.set(slugBase, blobUrl);
     }
 
+    // ===== Web media manifest (media/media.json, generated automatically from Google Drive) =====
+    const MEDIA_MANIFEST = new Map();
+
+    function manifestKey(path) {
+      return normalizeKey(extractCanonicalRelPath(path));
+    }
+
+    function getMediaItem(primaryPath, altPaths = []) {
+      const candidates = [primaryPath, ...(Array.isArray(altPaths) ? altPaths : [])].filter(Boolean);
+      for (const c of candidates) {
+        const item = MEDIA_MANIFEST.get(manifestKey(c));
+        if (item) return item;
+      }
+      return null;
+    }
+
+    // Small version for conveyor tiles and grids (falls back to full size)
+    function resolveThumbUrl(primaryPath, altPaths = []) {
+      const item = getMediaItem(primaryPath, altPaths);
+      if (item) return item.thumb || item.poster || item.src;
+      return resolveMediaUrl(primaryPath, altPaths);
+    }
+
+    async function loadMediaManifest() {
+      try {
+        const res = await fetch('media/media.json', { cache: 'no-cache' });
+        if (!res.ok) return false;
+        const data = await res.json();
+        const paths = [];
+        Object.entries(data.folders || {}).forEach(([folder, items]) => {
+          items.forEach((item) => {
+            const rel = `${folder}/${item.name}`;
+            MEDIA_MANIFEST.set(normalizeKey(rel), item);
+            paths.push(`portfolio-media/${rel}`);
+          });
+        });
+        if (paths.length) runAutoFolderScanner(paths);
+        return paths.length > 0;
+      } catch (e) {
+        console.warn('Media manifest not loaded:', e);
+        return false;
+      }
+    }
+
     function resolveMediaUrl(primaryPath, altPaths = []) {
+      const manifestItem = getMediaItem(primaryPath, altPaths);
+      if (manifestItem) return manifestItem.src;
       const candidates = [primaryPath, ...(Array.isArray(altPaths) ? altPaths : [])].filter(Boolean);
 
       for (const candidate of candidates) {
@@ -3653,6 +2452,9 @@
 
     window.LOCAL_BLOB_MAP = LOCAL_BLOB_MAP;
     window.resolveMediaUrl = resolveMediaUrl;
+    window.resolveThumbUrl = resolveThumbUrl;
+    window.getMediaItem = getMediaItem;
+    window.loadMediaManifest = loadMediaManifest;
     window.handleFolderPickerFiles = handleFolderPickerFiles;
     window.handleSmartMediaError = handleSmartMediaError;
     window.markLocalMediaConnected = markLocalMediaConnected;
@@ -4074,6 +2876,7 @@
     // Lightbox Viewer
     function openLightbox(src) {
       if (!src || isVisualEditMode) return;
+      src = String(src).replace('/thumbs/', '/');
       const modal = document.getElementById('lightboxModal');
       const img = document.getElementById('lightboxImage');
       if (modal && img) {
@@ -4251,31 +3054,35 @@
     let currentFilmStillFilter = 'all';
 
     function buildConveyorTileHTML(item) {
-      const src = resolveMediaUrl(item.rawPath);
+      const media = getMediaItem(item.rawPath);
+      const bg = media && media.lqip ? ` style="background-image:url('${media.lqip}')"` : '';
       if (item.type === 'video') {
+        const src = media ? media.loop : resolveMediaUrl(item.rawPath);
+        const poster = media ? ` poster="${media.poster}"` : '';
         return `
-          <div class="conveyor-tile">
+          <div class="conveyor-tile"${bg}>
             <video
-              src="${src}"
+              src="${src}"${poster}
               data-raw-path="${item.rawPath}"
-              onerror="handleSmartMediaError(this)"
               autoplay
               loop
               muted
               playsinline
-              preload="metadata"
+              disablepictureinpicture
+              preload="auto"
             ></video>
           </div>
         `;
       }
+      const src = resolveThumbUrl(item.rawPath);
       return `
-        <div class="conveyor-tile">
+        <div class="conveyor-tile"${bg}>
           <img
             src="${src}"
             data-raw-path="${item.rawPath}"
-            onload="markLocalMediaConnected()"
             onerror="handleSmartMediaError(this)"
             alt=""
+            decoding="async"
             loading="eager"
           />
         </div>
@@ -4352,9 +3159,19 @@
       }
     }
 
+    // Crossfade to the new category instead of snapping, so the belt never visibly restarts
+    let conveyorFilterTimer = null;
     function filterConveyor(category) {
       if (window.currentConveyorCategory === category) return;
-      renderConveyorBelt(category);
+      window.currentConveyorCategory = category;
+      clearTimeout(conveyorFilterTimer);
+      const plane = document.getElementById('conveyorPlane');
+      if (!plane) return renderConveyorBelt(category);
+      plane.classList.add('is-swapping');
+      conveyorFilterTimer = setTimeout(() => {
+        renderConveyorBelt(category);
+        requestAnimationFrame(() => plane.classList.remove('is-swapping'));
+      }, 220);
     }
 
     function renderBrandLogos() {
@@ -4388,23 +3205,30 @@
     }
 
     function buildFlushBrickItemHTML(rawPath, idx = 0, mobileLimit = 999) {
-      const src = resolveMediaUrl(rawPath);
+      const media = getMediaItem(rawPath);
       const extraClass = idx >= mobileLimit ? ' mobile-extra-brick' : '';
-      const staggerMs = (idx % 3) * 40;
+      const full = media ? media.src : resolveMediaUrl(rawPath);
+      const thumb = media ? media.thumb : full;
+      // Reserve the exact space before the image arrives, and show a blurred preview in it
+      const ratio = media && media.w && media.h ? `aspect-ratio:${media.w}/${media.h};` : '';
+      const bg = media && media.lqip ? `background-image:url('${media.lqip}');` : '';
+      const dims = media && media.w ? ` width="${media.w}" height="${media.h}"` : '';
       return `
         <div
-          class="brick-item brick-snap-item${extraClass} cursor-pointer"
-          data-snap-stagger="${staggerMs}"
-          onclick="openLightbox(this.querySelector('img').currentSrc)"
+          class="brick-item lazy-tile${extraClass} cursor-pointer"
+          style="${ratio}${bg}"
+          onclick="openLightbox('${full}')"
         >
           <img
-            src="${src}"
-            data-raw-path="${rawPath}"
-            onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);"
-            onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);"
+            src="${thumb}"
+            srcset="${thumb} 720w, ${full} 2400w"
+            sizes="(min-width: 1024px) 34vw, (min-width: 768px) 50vw, 100vw"
+            data-raw-path="${rawPath}"${dims}
+            onload="this.classList.add('is-loaded')"
+            onerror="handleSmartMediaError(this); this.classList.add('is-loaded')"
             alt=""
             decoding="async"
-            loading="eager"
+            loading="${idx < 6 ? 'eager' : 'lazy'}"
           />
         </div>
       `;
@@ -4608,22 +3432,23 @@
 
         const buildBtsTile = (fileName, idx = 0) => {
           const rawPath = `portfolio-media/01-welcome/bts-me/${fileName}`;
-          const src = resolveMediaUrl(rawPath);
-          const staggerMs = (idx % 3) * 40;
+          const media = getMediaItem(rawPath);
+          const src = resolveThumbUrl(rawPath);
+          const full = media ? media.src : src;
+          const bg = media && media.lqip ? ` style="background-image:url('${media.lqip}')"` : '';
           return `
             <div
-              onclick="openLightbox(this.querySelector('img').currentSrc)"
-              data-snap-stagger="${staggerMs}"
-              class="brick-snap-item w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block"
+              onclick="openLightbox('${full}')"${bg}
+              class="lazy-tile w-full h-44 sm:h-52 overflow-hidden bg-[#001229] cursor-pointer m-0 p-0 border-0 block"
             >
               <img
                 src="${src}"
                 data-raw-path="${rawPath}"
-                onload="markLocalMediaConnected(); revealBrickWhenDecoded(this);"
-                onerror="handleSmartMediaError(this); revealBrickWhenDecoded(this);"
+                onload="this.classList.add('is-loaded')"
+                onerror="handleSmartMediaError(this); this.classList.add('is-loaded')"
                 alt=""
                 decoding="async"
-                loading="eager"
+                loading="lazy"
                 class="w-full h-full object-cover block m-0 p-0 rounded-none hover:scale-105 transition-transform duration-300"
               />
             </div>
@@ -4873,7 +3698,7 @@
               <article class="video-stack-card glass-card rounded-2xl overflow-hidden border border-[#AEC3F4]/25" data-video-index="${idx}">
                 <div class="relative bg-[#001229] aspect-video w-full overflow-hidden">
                   <video
-                    src="${src}"
+                    src="${src}"${(getMediaItem(rawPath) || {}).poster ? ` poster="${getMediaItem(rawPath).poster}"` : ''}
                     data-raw-path="${rawPath}"
                     onerror="handleSmartMediaError(this)"
                     class="stack-video-player w-full h-full object-cover"
@@ -4882,7 +3707,7 @@
                     loop
                     muted
                     controls
-                    preload="auto"
+                    preload="metadata"
                   ></video>
                 </div>
                 <div class="p-5 sm:p-6 relative z-20">
@@ -5167,6 +3992,8 @@
 
     // Fault-Tolerant Application Bootstrapper
     async function initPortfolio() {
+      try { await loadMediaManifest(); } catch (e) { console.error(e); }
+      try { refreshAllRenderedMedia(); } catch (e) { console.error(e); }
       try { enforceLocalOnlyToolsVisibility(); } catch (e) { console.error(e); }
       try { renderConveyorBelt('all'); } catch (e) { console.error(e); }
       try { renderBrandLogos(); } catch (e) { console.error(e); }
@@ -5176,15 +4003,6 @@
       try { injectDeliverablePromises(); } catch (e) { console.error(e); }
       try { applySavedTextEdits(); } catch (e) { console.error(e); }
 
-      // Automatically restore all 229+ files from your Persistent Browser Media Vault
-      try {
-        const restored = await restoreFilesFromVaultDB();
-        if (restored) {
-          refreshAllRenderedMedia();
-        }
-      } catch (e) {
-        console.warn('Vault startup check note:', e);
-      }
     }
 
     if (document.readyState === 'loading') {

@@ -1,0 +1,74 @@
+# Pulls originals from Google Drive, makes web versions, and publishes the site.
+# Runs: every night, whenever code is pushed, or on demand (Actions tab → "Run workflow").
+name: Publish site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 7 * * *"   # ~2-3am New York time
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          pip install --quiet pillow google-auth requests
+
+      # Keyless sign-in to Google: GitHub proves it is this repo, Google lets it
+      # act as the portfolio-site-sync service account (read-only Drive access).
+      - name: Authenticate to Google
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: portfolio-site-sync@project-c3d04369-d886-46b4-97a.iam.gserviceaccount.com
+
+      - name: Download originals from Google Drive
+        run: python3 tools/fetch_drive.py "${{ vars.GDRIVE_FOLDER_ID }}" originals
+
+      - name: Restore previously processed media
+        uses: actions/cache@v4
+        with:
+          path: media
+          key: media-${{ github.run_id }}
+          restore-keys: media-
+
+      - name: Build web media
+        run: python3 tools/build_media.py originals media
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp index.html CNAME _site/
+          cp -r media _site/media
+          touch _site/.nojekyll
+          du -sh _site
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
