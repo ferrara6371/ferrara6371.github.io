@@ -347,17 +347,24 @@
       object-fit: cover;
     }
 
-    /* Smooth 0.35s Bottom-to-Top Snap-Up Entrance Animation for Galleries */
+    /* Gallery entrance: each photo drops gently down into place the first time it scrolls into view, then stays put */
     .brick-snap-item {
       opacity: 0;
-      transform: translate3d(0, 24px, 0);
-      will-change: transform, opacity;
-      transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translate3d(0, -22px, 0);
+      transition: opacity 0.6s ease-out, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .brick-snap-item.brick-snap-visible {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .brick-snap-item {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
     }
 
     /* Video Stack Active Card */
@@ -418,7 +425,7 @@
           <img id="headerBrandLogoImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-raw-path="portfolio-media/01-welcome/brand-logos/By JF logos.png" data-alt-list="portfolio-media/By JF logos.png|By JF logos.png" onload="markLocalMediaConnected()" onerror="handleSmartMediaError(this)" alt="JF Logo" class="w-full h-full object-contain" data-retry-idx="5">
         </div>
         <div class="min-w-0">
-          <span data-edit-key="brandName" class="font-heading text-base sm:text-xl tracking-tight hero-name-gradient block leading-none truncate">
+          <span data-edit-key="brandName" class="font-heading text-base sm:text-xl lg:text-lg xl:text-xl tracking-tight hero-name-gradient block leading-none truncate">
             JOSEPH FERRARA
           </span>
           <span data-edit-key="brandTagline" class="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-[#AEC3F4] block mt-1 truncate">
@@ -428,26 +435,25 @@
       </button>
 
       <!-- Single-Line Desktop Navigation Tabs -->
-      <nav class="hidden md:flex items-center gap-1.5 lg:gap-2">
-        <button type="button" onclick="switchMainView('welcome')" data-nav="welcome" class="nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
+      <nav class="hidden md:flex items-center gap-1.5 lg:gap-1 xl:gap-2">
+        <button type="button" onclick="switchMainView('welcome')" data-nav="welcome" class="nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
           Welcome
         </button>
-        <button type="button" onclick="switchMainView('photography')" data-nav="photography" class="nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#DDEDFF] bg-[#3c5ae8] shadow-md transition-all">
+        <button type="button" onclick="switchMainView('photography')" data-nav="photography" class="nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#DDEDFF] bg-[#3c5ae8] shadow-md transition-all">
           Headshots &amp; Photo
         </button>
-        <button type="button" onclick="switchMainView('videography')" data-nav="videography" class="nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
+        <button type="button" onclick="switchMainView('videography')" data-nav="videography" class="nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
           Videography
         </button>
-        <button type="button" onclick="switchMainView('about')" data-nav="about" class="nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
+        <button type="button" onclick="switchMainView('about')" data-nav="about" class="nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all">
           About &amp; Film
         </button>
       </nav>
 
       <!-- Right Actions: Client Delivery Portal + Persistent Vault Sync + Book Session CTA + Mobile Hamburger -->
       <div class="flex items-center gap-2 shrink-0">
-        <a href="https://josephferrara.pixieset.com" target="_blank" rel="noopener noreferrer" class="hidden xl:inline-flex items-center gap-2 whitespace-nowrap px-3.5 py-2 rounded-xl glass-panel border border-[#AEC3F4]/30 hover:border-[#2196F3] font-heading text-xs sm:text-sm text-[#DDEDFF] transition-all">
-          <i class="fa-solid fa-images text-[#2196F3]"></i>
-          <span>Client Delivery Portal</span>
+        <a href="https://josephferrara.pixieset.com" target="_blank" rel="noopener noreferrer" class="hidden min-[1100px]:inline-flex items-center whitespace-nowrap px-3 xl:px-5 py-2 rounded-xl bg-[#001229] border-2 border-[#3c5ae8] shadow-[0_0_0_1px_rgba(33,150,243,0.25),0_0_14px_rgba(60,90,232,0.35)] hover:border-[#2196F3] hover:shadow-[0_0_0_1px_rgba(33,150,243,0.45),0_0_20px_rgba(33,150,243,0.5)] font-heading font-semibold text-[13px] xl:text-sm text-[#DDEDFF] transition-all">
+          Client Delivery Portal
         </a>
 
         <label for="folderPickerInput" id="headerFolderBtn" title="Sync your portfolio-media folder once to save all photos &amp; videos into your browser's permanent vault" class="hidden md:flex cursor-pointer whitespace-nowrap px-3.5 py-2 rounded-xl glass-panel border border-[#2196F3]/50 hover:border-[#DDEDFF] text-xs font-mono text-[#DDEDFF] items-center gap-2 transition-all shadow-sm">
@@ -936,25 +942,18 @@
         <!-- Deliverable Promises Banner -->
         <div class="deliverable-promises-slot mt-14">
           <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-[#3c5ae8]/40 shadow-xl">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#AEC3F4]/20">
-              <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40 mb-2">
+            <div class="mb-8">
+              <div class="flex flex-wrap items-center gap-3 sm:gap-5 pb-4 mb-4 border-b border-[#AEC3F4]/20 lg:max-w-[60%]">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40">
                   <i class="fa-solid fa-shield-halved text-[#2196F3] text-xs"></i>
                   <span class="font-mono text-xs uppercase tracking-widest text-[#DDEDFF]">Service Standards &amp; Turnaround Guarantees</span>
                 </div>
-                <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="px-3.5 py-2 rounded-xl bg-[#001229]/80 border border-[#AEC3F4]/25 font-mono text-xs text-[#AEC3F4] flex items-center gap-2">
-                  <i class="fa-brands fa-google-drive text-[#2196F3]"></i>
-                  <span>All deliverables provided via Google Drive link</span>
-                </span>
-                <button type="button" onclick="openPortalModal()" class="px-4 py-2 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                <a href="https://josephferrara.pixieset.com" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center gap-2 shadow-md">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
                   <span>Open Client Delivery Portal</span>
-                </button>
+                </a>
               </div>
+              <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1085,7 +1084,7 @@
             <p data-edit-key="videoCtaBannerText" class="font-body text-base text-[#DDEDFF]">
               Looking to produce a commercial spot, theatrical promo, or live concert edit?
             </p>
-            <button type="button" onclick="openBookingModal('Videography Production', '$50/hour (Shoot + Edit)')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#3c5ae8] to-[#2196F3] hover:from-[#2196F3] hover:to-[#3c5ae8] text-[#DDEDFF] font-heading text-xs sm:text-sm uppercase tracking-wider shadow-lg whitespace-nowrap transition-all">
+            <button type="button" onclick="openBookingModal('Videography Production', '$50/hour (Shoot + Edit)')" class="px-7 py-3 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] border border-[#2196F3]/70 text-[#DDEDFF] font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap shadow-[0_0_22px_rgba(60,90,232,0.55)] hover:shadow-[0_0_30px_rgba(33,150,243,0.7)] hover:-translate-y-0.5 transition-all">
               Request a Project Quote
             </button>
           </div>
@@ -1094,25 +1093,18 @@
         <!-- Deliverable Promises Banner -->
         <div class="deliverable-promises-slot">
           <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-[#3c5ae8]/40 shadow-xl">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#AEC3F4]/20">
-              <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40 mb-2">
+            <div class="mb-8">
+              <div class="flex flex-wrap items-center gap-3 sm:gap-5 pb-4 mb-4 border-b border-[#AEC3F4]/20 lg:max-w-[60%]">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40">
                   <i class="fa-solid fa-shield-halved text-[#2196F3] text-xs"></i>
                   <span class="font-mono text-xs uppercase tracking-widest text-[#DDEDFF]">Service Standards &amp; Turnaround Guarantees</span>
                 </div>
-                <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="px-3.5 py-2 rounded-xl bg-[#001229]/80 border border-[#AEC3F4]/25 font-mono text-xs text-[#AEC3F4] flex items-center gap-2">
-                  <i class="fa-brands fa-google-drive text-[#2196F3]"></i>
-                  <span>All deliverables provided via Google Drive link</span>
-                </span>
-                <button type="button" onclick="openPortalModal()" class="px-4 py-2 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                <a href="https://josephferrara.pixieset.com" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center gap-2 shadow-md">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
                   <span>Open Client Delivery Portal</span>
-                </button>
+                </a>
               </div>
+              <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1216,7 +1208,7 @@
 
               <!-- Resume, Socials & Production Hub Links Directly Under Credentials -->
               <div class="grid grid-cols-2 gap-2 pt-0.5">
-                <a id="resumeDirectLink" href="portfolio-media/05-about-film/resume/Joseph Ferrara Resume Online.pdf" target="_blank" rel="noopener noreferrer" class="col-span-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#3c5ae8] to-[#2196F3] hover:from-[#2196F3] hover:to-[#3c5ae8] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all">
+                <a id="resumeDirectLink" href="portfolio-media/05-about-film/resume/Joseph Ferrara Resume.pdf" target="_blank" rel="noopener noreferrer" class="col-span-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#3c5ae8] to-[#2196F3] hover:from-[#2196F3] hover:to-[#3c5ae8] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all">
                   <i class="fa-solid fa-file-pdf"></i>
                   <span>View Resume (PDF)</span>
                 </a>
@@ -1388,7 +1380,7 @@
               </a>
             </li>
             <li>
-              <a id="footerResumeLink" href="portfolio-media/05-about-film/resume/Joseph Ferrara Resume Online.pdf" target="_blank" rel="noopener noreferrer" class="hover:text-[#DDEDFF] flex items-center gap-2 transition-colors">
+              <a id="footerResumeLink" href="portfolio-media/05-about-film/resume/Joseph Ferrara Resume.pdf" target="_blank" rel="noopener noreferrer" class="hover:text-[#DDEDFF] flex items-center gap-2 transition-colors">
                 <i class="fa-solid fa-file-pdf text-[#2196F3] w-4"></i>
                 <span>Download Resume (PDF)</span>
               </a>
@@ -1422,7 +1414,7 @@
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#AEC3F4]/80">
         <p>© 2026 Joseph Ferrara. All rights reserved.</p>
         <div class="flex items-center gap-4">
-          <p>Deliverables provided in high-resolution 24MP JPG &amp; 1080p/4K MP4 via Google Drive.</p>
+          <p>Deliverables provided in high-resolution 24MP JPG &amp; 1080p/4K MP4 via the Client Delivery Portal.</p>
           <button type="button" id="footerEditTextBtn" onclick="toggleVisualEditMode()" title="Shortcut: Shift + Option + E" class="px-2.5 py-1 rounded-lg glass-panel border border-[#AEC3F4]/25 hover:border-[#2196F3] text-[11px] text-[#AEC3F4] hover:text-[#DDEDFF] transition-all">
             <i class="fa-solid fa-pen-to-square mr-1 text-[#2196F3]"></i>Edit Text
           </button>
@@ -1985,7 +1977,7 @@
     "Screenshot 2026-10-23 at 7.43.32 PM.png",
     "Screenshot 2026-10-23 at 7.46.15 PM.png"
   ],
-  "resumePdf": "Joseph Ferrara Resume Online.pdf"
+  "resumePdf": "Joseph Ferrara Resume.pdf"
 };
   </script>
 
@@ -2580,10 +2572,10 @@
       document.querySelectorAll('[data-nav]').forEach((btn) => {
         if (btn.getAttribute('data-nav') === viewName) {
           btn.className =
-            'nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#DDEDFF] bg-[#3c5ae8] shadow-md transition-all';
+            'nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#DDEDFF] bg-[#3c5ae8] shadow-md transition-all';
         } else {
           btn.className =
-            'nav-tab-btn whitespace-nowrap px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all';
+            'nav-tab-btn whitespace-nowrap px-3 lg:px-2.5 xl:px-4 py-2 rounded-xl font-heading text-sm text-[#AEC3F4] hover:text-[#DDEDFF] hover:bg-white/5 transition-all';
         }
       });
 
@@ -2979,7 +2971,7 @@
         }
       });
 
-      const resumeRelPath = `portfolio-media/05-about-film/resume/${(window.MEDIA_CATALOG && window.MEDIA_CATALOG.resumePdf) || 'Joseph Ferrara Resume Online.pdf'}`;
+      const resumeRelPath = `portfolio-media/05-about-film/resume/${(window.MEDIA_CATALOG && window.MEDIA_CATALOG.resumePdf) || 'Joseph Ferrara Resume.pdf'}`;
       ['resumeDirectLink', 'footerResumeLink'].forEach((id) => {
         const linkEl = docClone.querySelector(`#${id}`);
         if (linkEl) linkEl.setAttribute('href', resumeRelPath);
@@ -3204,18 +3196,67 @@
       }
     }
 
+    // Brick pattern: how much of each photo's long side to trim, by position in the gallery.
+    // 1 = show the whole photo. Varied tile heights are what make the columns stagger.
+    const BRICK_TRIM_PATTERN = [1, 1.22, 1.08, 1.33, 1, 1.15, 1.28, 1.05, 1.2];
+
+    // Works out a crop for a gallery tile that never cuts into a face.
+    // Uses the face boxes found by tools/build_media.py; the lightbox always shows the full photo.
+    function computeBrickCrop(media, idx, rawPath) {
+      if (!media || !media.w || !media.h) return null;
+      const natural = media.w / media.h;
+      const croppable = /\/(02-headshots|03-events)\//i.test(rawPath);
+      const faces = Array.isArray(media.faces) ? media.faces : null;
+      if (!croppable || !faces) return { ratio: natural, pos: '50% 50%' };
+
+      const portrait = natural < 1;
+      let trim = BRICK_TRIM_PATTERN[idx % BRICK_TRIM_PATTERN.length];
+      // Never crop past square
+      trim = Math.min(trim, portrait ? 1 / natural : natural);
+
+      // Faces that matter: ignore tiny background faces (< 35% the width of the biggest one)
+      const biggest = faces.length ? faces[0][2] : 0;
+      const subjects = faces.filter((f) => f[2] >= biggest * 0.35);
+      if (!subjects.length) trim = Math.min(trim, 1.12); // nobody detected: keep crops mild
+
+      // Safe zone along the axis we crop (vertical for portrait, horizontal for landscape),
+      // padded so hair, chin and ears stay in frame too.
+      let lo = 1, hi = 0;
+      subjects.forEach(([x, y, w, h]) => {
+        if (portrait) { lo = Math.min(lo, y - h * 0.6); hi = Math.max(hi, y + h * 1.3); }
+        else { lo = Math.min(lo, x - w * 0.35); hi = Math.max(hi, x + w * 1.35); }
+      });
+      lo = Math.max(0, lo); hi = Math.min(1, hi);
+
+      let keep = 1 / trim; // fraction of the long side left visible
+      if (subjects.length && hi - lo > keep) keep = hi - lo; // shrink the crop until every face fits
+      if (keep > 0.95) return { ratio: natural, pos: '50% 50%' };
+
+      // Place the window: faces sit a little above centre on portraits, centred on landscapes
+      const centre = subjects.length ? (lo + hi) / 2 : 0.5;
+      let start = centre - keep * (portrait ? 0.45 : 0.5);
+      start = Math.min(Math.max(start, subjects.length ? hi - keep : 0), subjects.length ? lo : 1 - keep);
+      start = Math.min(Math.max(start, 0), 1 - keep);
+      const pct = ((start / (1 - keep)) * 100).toFixed(1);
+      return portrait
+        ? { ratio: natural / keep, pos: `50% ${pct}%` }
+        : { ratio: natural * keep, pos: `${pct}% 50%` };
+    }
+
     function buildFlushBrickItemHTML(rawPath, idx = 0, mobileLimit = 999) {
       const media = getMediaItem(rawPath);
       const extraClass = idx >= mobileLimit ? ' mobile-extra-brick' : '';
       const full = media ? media.src : resolveMediaUrl(rawPath);
       const thumb = media ? media.thumb : full;
-      // Reserve the exact space before the image arrives, and show a blurred preview in it
-      const ratio = media && media.w && media.h ? `aspect-ratio:${media.w}/${media.h};` : '';
+      // Reserve the tile's space before the image arrives, and show a blurred preview in it
+      const crop = computeBrickCrop(media, idx, rawPath);
+      const ratio = crop ? `aspect-ratio:${crop.ratio.toFixed(4)};background-position:${crop.pos};` : '';
+      const imgPos = crop ? ` style="object-position:${crop.pos}"` : '';
       const bg = media && media.lqip ? `background-image:url('${media.lqip}');` : '';
       const dims = media && media.w ? ` width="${media.w}" height="${media.h}"` : '';
       return `
         <div
-          class="brick-item lazy-tile${extraClass} cursor-pointer"
+          class="brick-item lazy-tile brick-snap-item${extraClass} cursor-pointer"
           style="${ratio}${bg}"
           onclick="openLightbox('${full}')"
         >
@@ -3223,7 +3264,7 @@
             src="${thumb}"
             srcset="${thumb} 720w, ${full} 2400w"
             sizes="(min-width: 1024px) 34vw, (min-width: 768px) 50vw, 100vw"
-            data-raw-path="${rawPath}"${dims}
+            data-raw-path="${rawPath}"${dims}${imgPos}
             onload="this.classList.add('is-loaded')"
             onerror="handleSmartMediaError(this); this.classList.add('is-loaded')"
             alt=""
@@ -3281,31 +3322,18 @@
 
         brickSnapObserver = new IntersectionObserver(
           (entries) => {
+            // Tiles that arrive together drop in one after another (a short cascade), then stay put
+            let order = 0;
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return;
               const tileEl = entry.target;
-              tileEl.setAttribute('data-in-viewport', 'true');
-              const img = tileEl.querySelector('img');
-
-              if (img && img.complete && img.naturalWidth > 0) {
-                if (typeof img.decode === 'function') {
-                  img.decode().catch(() => {}).finally(() => {
-                    revealBrickItem(tileEl);
-                  });
-                } else {
-                  revealBrickItem(tileEl);
-                }
-              } else {
-                // Fail-safe so no tile ever stays blank if still decoding
-                setTimeout(() => {
-                  revealBrickItem(tileEl);
-                }, 180);
-              }
-
+              tileEl.setAttribute('data-snap-stagger', String(Math.min(order, 6) * 70));
+              order += 1;
+              revealBrickItem(tileEl);
               brickSnapObserver.unobserve(tileEl);
             });
           },
-          { rootMargin: '140px 0px 140px 0px', threshold: 0.01 }
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 }
         );
 
         items.forEach((tileEl) => {
@@ -3418,7 +3446,7 @@
         }
 
         // Update Resume PDF links
-        const resumeRaw = `portfolio-media/05-about-film/resume/${MEDIA_CATALOG.resumePdf || 'Joseph Ferrara Resume Online.pdf'}`;
+        const resumeRaw = `portfolio-media/05-about-film/resume/${MEDIA_CATALOG.resumePdf || 'Joseph Ferrara Resume.pdf'}`;
         const resolvedResume = resolveMediaUrl(resumeRaw);
         ['resumeDirectLink', 'footerResumeLink'].forEach((id) => {
           const link = document.getElementById(id);
@@ -3569,29 +3597,18 @@
         const dp = SITE_CONFIG.deliverablePromises;
         const html = `
           <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-[#3c5ae8]/40 shadow-xl">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#AEC3F4]/20">
-              <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40 mb-2">
+            <div class="mb-8">
+              <div class="flex flex-wrap items-center gap-3 sm:gap-5 pb-4 mb-4 border-b border-[#AEC3F4]/20 lg:max-w-[60%]">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#3c5ae8]/20 border border-[#2196F3]/40">
                   <i class="fa-solid fa-shield-halved text-[#2196F3] text-xs"></i>
                   <span class="font-mono text-xs uppercase tracking-widest text-[#DDEDFF]">Service Standards &amp; Turnaround Guarantees</span>
                 </div>
-                <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="px-3.5 py-2 rounded-xl bg-[#001229]/80 border border-[#AEC3F4]/25 font-mono text-xs text-[#AEC3F4] flex items-center gap-2">
-                  <i class="fa-brands fa-google-drive text-[#2196F3]"></i>
-                  <span>All deliverables provided via Google Drive link</span>
-                </span>
-                <button
-                  type="button"
-                  onclick="openPortalModal()"
-                  class="px-4 py-2 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md"
-                >
-                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                <a href="https://josephferrara.pixieset.com" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-[#3c5ae8] hover:bg-[#2196F3] text-[#DDEDFF] font-heading font-semibold text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center gap-2 shadow-md">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[11px]"></i>
                   <span>Open Client Delivery Portal</span>
-                </button>
+                </a>
               </div>
+              <h4 class="font-heading text-2xl sm:text-3xl text-[#DDEDFF]">Deliverable Promises</h4>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

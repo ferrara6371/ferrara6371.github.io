@@ -21,11 +21,20 @@ import base64, hashlib, io, json, os, subprocess, sys
 from pathlib import Path
 from PIL import Image, ImageOps
 
+try:  # Face detection is optional: without OpenCV, tiles simply aren't face-cropped
+    import cv2
+    import numpy as np
+except ImportError:
+    cv2 = None
+
 Image.MAX_IMAGE_PIXELS = None
 IMG_EXT = {".jpg", ".jpeg", ".png", ".heic", ".webp", ".tif", ".tiff"}
 VID_EXT = {".mp4", ".mov", ".m4v"}
 COPY_EXT = {".pdf", ".svg"}
 FULL_PX, THUMB_PX = 2400, 720
+FACE_MODEL = Path(__file__).parent / "models" / "face_detection_yunet_2023mar.onnx"
+FACE_PX = 1280      # long edge used for detection
+_face_detector = None
 
 
 def slug(name: str) -> str:
@@ -57,6 +66,33 @@ def placeholder(im) -> str:
     return "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
+def detect_faces(im):
+    """Return face boxes as [x, y, w, h] fractions of the image (0-1), biggest first.
+    The site uses these to crop gallery tiles without cutting into anyone's face."""
+    global _face_detector
+    if cv2 is None or not FACE_MODEL.exists():
+        return None
+    small = im.convert("RGB")
+    small.thumbnail((FACE_PX, FACE_PX))
+    w, h = small.size
+    if _face_detector is None:
+        _face_detector = cv2.FaceDetectorYN.create(str(FACE_MODEL), "", (w, h), 0.75, 0.3, 5000)
+    _face_detector.setInputSize((w, h))
+    bgr = cv2.cvtColor(np.asarray(small), cv2.COLOR_RGB2BGR)
+    _, found = _face_detector.detect(bgr)
+    boxes = []
+    for f in (found if found is not None else []):
+        x, y, fw, fh = (float(v) for v in f[:4])
+        x0, y0 = max(0.0, x), max(0.0, y)
+        x1, y1 = min(float(w), x + fw), min(float(h), y + fh)
+        if x1 - x0 < 12 or y1 - y0 < 12:
+            continue
+        boxes.append([round(x0 / w, 4), round(y0 / h, 4),
+                      round((x1 - x0) / w, 4), round((y1 - y0) / h, 4)])
+    boxes.sort(key=lambda b: b[2] * b[3], reverse=True)
+    return boxes
+
+
 def process_image(src, rel_dir, out_root, cache):
     key = slug(src.name)
     fp = fingerprint(src)
@@ -64,6 +100,10 @@ def process_image(src, rel_dir, out_root, cache):
     thumb = out_root / rel_dir / "thumbs" / f"{key}.webp"
     cached = cache.get(str(rel_dir / src.name))
     if cached and cached.get("fp") == fp and full.exists() and thumb.exists():
+        if "faces" not in cached:  # processed before face detection existed
+            faces = detect_faces(Image.open(full))
+            if faces is not None:
+                cached["faces"] = faces
         return cached
     im = Image.open(src)
     im = ImageOps.exif_transpose(im)
@@ -71,12 +111,16 @@ def process_image(src, rel_dir, out_root, cache):
     im = im.convert("RGBA" if has_alpha else "RGB")
     w, h = save_webp(im, full, FULL_PX, 84)
     save_webp(im, thumb, THUMB_PX, 78)
-    return {
+    item = {
         "type": "image", "name": src.name, "fp": fp,
         "src": str(full.relative_to(out_root.parent)),
         "thumb": str(thumb.relative_to(out_root.parent)),
         "w": w, "h": h, "lqip": placeholder(im),
     }
+    faces = detect_faces(im)
+    if faces is not None:
+        item["faces"] = faces
+    return item
 
 
 def ffmpeg(*args):

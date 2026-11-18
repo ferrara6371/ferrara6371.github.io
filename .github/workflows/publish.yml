@@ -28,7 +28,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
-          pip install --quiet pillow google-auth requests
+          pip install --quiet pillow google-auth requests opencv-python-headless numpy
 
       # Keyless sign-in to Google: GitHub proves it is this repo, Google lets it
       # act as the portfolio-site-sync service account (read-only Drive access).
